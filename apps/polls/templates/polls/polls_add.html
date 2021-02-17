@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-md-1 mb-4">
+<h2 style="color:#17A2B8" >Добавить</h2>
+<form action = "{% url 'pollssingl' %}" method = "post">
+	{% csrf_token %}
+	{{ pollForm.as_p }}
+	<input type = "submit" id="submit" value = "Submit" />
+</form>
+</div>
+{% endblock %}
+

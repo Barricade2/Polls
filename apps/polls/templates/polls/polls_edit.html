@@ -1,0 +1,24 @@
+{#Редактировать Форма. update: PUT url: /category/1/  Revision of classification details#}
+
+
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="col-md-1 mb-4">
+<h2 style="color:blue">Редактировать</h2>
+<form action = "{% url 'polls:poll-put' pk=pk %}" method = "post" >{# Не работает, через PULL- ajax #}
+	{% csrf_token %}
+    {{pollForm.title.label_tag}}
+	{{pollForm.title}}
+    {{pollForm.plot.label_tag}}
+    {{pollForm.plot}}
+    {{pollForm.end_at.label_tag}}
+    {{pollForm.end_at}}
+    {{pollForm.is_published.label_tag}}
+    {{pollForm.is_published}}
+	<input  type = "submit" value = "Submit" />
+</form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header>
+    <div class="text-box">
+        <h1>Войти</h1>
+        <a href="{% url 'login' %}" class="btn btn-outline btn-large btn-info">Войти<span class="ml-2">&rarr;</span></a>
+        <p class="mt-1">Нажми, пожалуйста, на кнопку Войти.</p>
+        <a href="{% url 'polls:polls-list' %}" class="btn btn-outline btn-large btn-info">Продолжить<span class="ml-2">&rarr;</span></a>
+        <p class="mt-1">Нет, спасибо.</p>
+    </div>
+</header>
+
+ <style>
+header {
+  min-height: 100vh;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.4)
+    ),
+    url("");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+.text-box {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: #fff;
+}
+.text-box h1 {
+  font-family: cursive;
+  font-size: 5rem;
+}
+.text-box p {
+  font-size: 2rem;
+  font-weight: lighter;
+}
+</style>
+{% endblock %}

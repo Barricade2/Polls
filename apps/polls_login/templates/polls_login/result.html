@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    #результат для анонимного созданного человека с id 1.
+    #todo: проверка авторизации. цикл перечней т.д. и т.п.
+
+
+
+       <h1>     {{user.poll.title}}</h1>
+        <h3>     {{user.question}}</h3>
+        <h3>     {{user.choice}}</h3>
+
+ {% endblock %}
+
+
+

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-md-1 mb-4">
+<h2 style="color:#17A2B8" >Добавить</h2>
+<form action = "{% url 'questionsingl' %}" method = "post">
+	{% csrf_token %}
+	{{ questionForm.as_p }}
+	<input type = "submit" value = "Submit" />
+</form>
+</div>
+{% endblock %}
+

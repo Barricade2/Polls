@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container mt-5">
+    <div class="row">
+      <div class="col-12 text-right mb-4">
+        <div class="d-flex justify-content-between">
+          <h3>Опросы</h3>
+            {%  if request.user.is_authenticated  %}
+                <a href="{% url 'polls:poll-add' %}" class="btn btn-info">Добавить опрос</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-info">Войти</a>
+            {% endif %}
+        </div>
+
+      </div>
+
+{% for poll in polls %}
+
+      <div class="card almum-card col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">{{ poll.title }}</h5>
+          <p class="card-text">
+      	   <strong>Plot:</strong> {{ poll.plot }}
+          </p>
+	     <div class="action-buttons">
+        <a href="{% url 'polls:poll-detail' poll.id %}" class="btn btn-sm btn-success"> View </a>
+             {%  if request.user.is_authenticated  %}
+        <a href="{% url 'polls:poll-edit' pk=poll.id %}" class="btn btn-sm btn-primary"> Edit </a>
+        <button id="{{poll.id}}" onclick="fun({{poll.id}});" class="btn btn-sm btn-danger">Delete</button>
+             {% endif %}
+       </div>
+        </div>
+      </div>
+
+{% endfor %}
+   </div>
+</main>
+
+<style>
+.almum-card {
+    box-shadow: 0 1rem 1.5rem rgba(0,0,0,.6);
+    margin-right: 8px
+}
+</style>
+
+<script>
+  function fun(id){
+
+  $.ajax({
+
+      type: 'DELETE',
+      url: 'http://127.0.0.1:8000/api/v1/polls/pollssinglId/'+id+'/',
+  error:function(){ alert('Error!'); return false; },
+  success: function(response) {
+    console.log(response); 
+     alert('Успешно удаленно!');
+      }});return false;
+};
+</script>
+{% endblock %}

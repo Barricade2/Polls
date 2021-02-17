@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container mt-5">
+    <div class="row">
+      <div class="col-12 text-right mb-4">
+        <div class="d-flex justify-content-between">
+          <h3>Опросы</h3>
+            {%  if request.user.is_authenticated  %}
+                <a href="{% url 'polls:question-add' pk=poll.id %}" class="btn btn-info">Добавить вопрос</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-info">Войти</a>
+            {% endif %}
+        </div>
+      </div>
+
+
+    <div class="col-12 text-center my-1">
+        <h5 class="mb-3 display-6 text-uppercase">Название: {{ poll.title }}</h5>
+        <h5 class="mb-3 display-6 text-uppercase">Описание: {{ poll.plot }}</h5>
+         </div> <div class="col-12 text-center my-1">
+          <h4>Дата старта:</h4>
+           <p><strong>{{ poll.start_at }}</strong></p>
+          <h4>Дата окончания:</h4>
+           <p><strong>{{ poll.end_at }}</strong></p>
+    </div>
+
+
+
+{% for question in questions %}
+      <div class="card almum-card col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Название: {{ question.title }}</h5>
+          <p class="card-text">
+      	   <strong>Описание:</strong> {{ question.plot }}
+          </p>
+            <p class="card-text">
+      	   <strong>Опрос: </strong> {{ question.poll }}
+          </p>
+        <p class="card-text">
+      	   <strong>Опрос: </strong> {{ question.type }}
+          </p>
+            <p class="card-text">
+      	   <strong>Перечни: </strong> </br>
+
+            {% if question.type == "Один"  %}
+
+
+                {% for choice in question.choice.all %}
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+                    <label for="choice{{ forloop.counter }}">{{ choice }}</label><br /></p>
+                {% endfor %}
+
+            {% elif question.type == "Много" %}
+
+                {% for choice in question.choice.all %}
+                    <input type="checkbox" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+                    <label for="choice{{ forloop.counter }}">{{ choice }}</label><br /></p>
+                {% endfor %}
+
+            {% elif question.type == "Ввод" %}
+
+                    <input type="text" name="choice" id="choice" value="" />
+                   <br /></p>
+
+            {% endif %}
+
+
+	     <div class="action-buttons">
+             {%  if request.user.is_authenticated  %}
+        <a href="{% url 'polls:question-edit' pk=poll.id id=question.id %}" class="btn btn-sm btn-primary"> Edit </a>
+        <button id="{{question.id}}" onclick="fun({{question.id}});" class="btn btn-sm btn-danger">Delete</button>
+        {% endif %}
+         <a href="{% url 'result' user_id=poll.id  %}" class="btn btn-sm btn-primary"> Нажать </a>
+         </div>
+        </div>
+      </div>
+
+{% endfor %}
+   </div>
+</main>
+
+<style>
+.almum-card {
+    box-shadow: 0 1rem 1.5rem rgba(0,0,0,.6);
+    margin-right: 8px
+}
+</style>
+
+<script>
+  function fun(id_album){
+
+  $.ajax({
+  type: 'DELETE',
+  url: 'http://localhost:8000/api/album/'+id_album+'/',
+  error:function(){ alert('Error!'); return false; },
+  success: function(response) {
+    console.log(response);
+     alert('Успешно удаленно!');
+      }});return false;
+};
+</script>
+{% endblock %}
